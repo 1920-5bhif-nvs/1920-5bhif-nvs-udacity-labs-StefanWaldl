@@ -5,10 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import androidx.core.content.getSystemService
 import androidx.databinding.DataBindingUtil
 import at.htl.aboutme.databinding.ActivityMainBinding
 
