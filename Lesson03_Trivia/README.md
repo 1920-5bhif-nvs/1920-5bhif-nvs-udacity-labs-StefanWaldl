@@ -27,6 +27,9 @@
 
 **Back stack manipulation**
 ![enter image description here](https://i1.wp.com/blogs.innovationm.com/wp-content/uploads/2018/06/anuj-blog-without-border.png?fit=624%2C390)
+
+
+
 **Safe arguments**
 ![alt text](screenshots/safe_arguments.JPG)
 
