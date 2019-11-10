@@ -1,106 +1,85 @@
-# Activity Lifecycle - DessertPusher 
+﻿## Lesson 04: Dessert Pusher - Tripi&#x0107; Nenad
 
-This is the toy app for lesson 4 of the [Android App Development in Kotlin course on Udacity](https://classroom.udacity.com/courses/ud9012/lessons/e487c600-ed68-4576-a35a-12f211cf032e/concepts/6a155d63-8153-4a56-95cb-1dfdf06aa173).
+**Contents:**
 
-## DessertPusher
-
-DessertPusher is a game about making desserts. Press the button, make a dessert, earn the big bucks.
-
-This app is for exploring the [Activity Lifecycle callback methods](https://developer.android.com/guide/components/activities/activity-lifecycle) and the [Lifecycle](https://developer.android.com/reference/android/arch/lifecycle/Lifecycle) object.
-
-
-## Screenshots
-
-![Screenshot1](screenshots/screen0.png) ![Screenshot1](screenshots/screen1.png) ![Screenshot1](screenshots/screen2.png)
-
-## How to use this repo while taking the course
-
-
-Each code repository in this class has a chain of commits that looks like this:
-
-![listofcommits](https://d17h27t6h515a5.cloudfront.net/topher/2017/March/58befe2e_listofcommits/listofcommits.png)
-
-These commits show every step you'll take to create the app. Each commit contains instructions for completing the that step.
-
-Each commit also has a **branch** associated with it of the same name as the commit message, seen below:
-
-![branches](https://d17h27t6h515a5.cloudfront.net/topher/2017/April/590390fe_branches-ud855/branches-ud855.png
-)
-Access all branches from this tab
-
-![listofbranches](https://d17h27t6h515a5.cloudfront.net/topher/2017/March/58befe76_listofbranches/listofbranches.png
-)
+ - Activity lifecycle in general
+ - Activity lifecycle states
+ - Activity lifecycle state callbacks
+ - Logging
+ - Timber (a logging library)
+ - Application Class
+ - Setup and teardown
+ - LifecycleObserver
+ - onSaveInstanceState
+ - Configuration change
+ - have a look at the [screenshots](https://github.com/1920-5bhif-nvs/1920-5bhif-nvs-udacity-labs-TripicNenad/tree/master/Lesson04_Dessert_Pusher/screenshots), there are good explanations
 
 
-![branchesdropdown](https://d17h27t6h515a5.cloudfront.net/topher/2017/April/590391a3_branches-dropdown-ud855/branches-dropdown-ud855.png
-)
+## Key takeaways - What was new for me?
 
-The branches are also accessible from the drop-down in the "Code" tab
+## Activity lifecycle
+
+Every activity lifecycle has **states** and every state has its own callback methods.
+
+![Activity Lifecycle](https://codelabs.developers.google.com/codelabs/kotlin-android-training-lifecycles-logging/img/468988518c270b38.png)
+
+### General Definitions
+
+ - **Visible Lifecycle:** The part of the Lifecycle between onStart and onStop when the Activity is visible.
+   
+ -  **Focus:** An Activity is said to have focus when it's the activity the user can interact with.
+   
+  - **Foreground:** When the activity is on screen.
+   
+  - **Background:** When the activity is fully off screen, it is considered in the background.
 
 
-## Working with the Course Code
 
-Here are the basic steps for working with and completing exercises in the repo.
+### Lifecycle States
 
-The basic steps are:
+These are the same for both the Fragment Lifecycle and the Activity Lifecycle.
 
-1. Clone the repo
-2. Checkout the branch corresponding to the step you want to attempt
-3. Find and complete the TODOs
-4. Optionally commit your code changes
-5. Compare your code with the solution
-6. Repeat steps 2-5 until you've gone trough all the steps to complete the toy app
+- **Initialized:** This is the starting state whenever you make a new activity. This is a transient state -- it immediately goes to Created.
+
+- **Created:** Activity has just been created, but it’s not visible and it doesn’t have focus (you’re not able to interact with it).
+
+- **Started:** Activity is visible but doesn’t have focus.
+
+- **Resumed:** The state of the activity when it is running. It’s visible and has focus.
+
+- **Destroyed:** Activity is destroyed. It can be ejected from memory at any point and should not be referenced or interacted with.
+
+- [Further details](https://classroom.udacity.com/courses/ud9012/lessons/e487c600-ed68-4576-a35a-12f211cf032e/concepts/4c1503f9-2de5-45ea-88ae-2138b0482ecc)
 
 
-**Step 1: Clone the repo**
 
-As you go through the course, you'll be instructed to clone the different exercise repositories, so you don't need to set these up now. You can clone a repository from github in a folder of your choice with the command:
-
-```bash
-git clone https://github.com/udacity/REPOSITORY_NAME.git
+### Logging
 ```
-
-**Step 2: Checkout the step branch**
-
-As you go through different steps in the code, you'll be told which step you're on, as well as a link to the corresponding branch.
-
-You'll want to check out the branch associated with that step. The command to check out a branch would be:
-
-```bash
-git checkout BRANCH_NAME
+Log.i("MainActivity", "onCreate called")
 ```
+Logs have different levels which are used in different situations. The levels and their usages are listed below:
 
-**Step 3: Find and complete the TODOs**
+-   **Verbose**: Show all log messages (the default).
+-   **Debug**: Show debug log messages that are useful during development only, as well as the message levels lower in this list.
+-   **Info**: Show expected log messages for regular usage, as well as the message levels lower in this list.
+-   **Warn**: Show possible issues that are not yet errors, as well as the message levels lower in this list.
+-   **Error**: Show issues that have caused errors, as well as the message level lower in this list.
+-   **Assert**: Show issues that the developer expects should never happen.
 
-Once you've checked out the branch, you'll have the code in the exact state you need. You'll even have TODOs, which are special comments that tell you all the steps you need to complete the exercise. You can easily navigate to all the TODOs using Android Studio's TODO tool. To open the TODO tool, click the button at the bottom of the screen that says TODO. This will display a list of all comments with TODO in the project. 
 
-We've numbered the TODO steps so you can do them in order:
-![todos](https://d17h27t6h515a5.cloudfront.net/topher/2017/March/58bf00e7_todos/todos.png
-)
 
-**Step 4: Commit your code changes**
+### Application class
+A base class that contains global application state for your entire app.
 
-After You've completed the TODOs, you can optionally commit your changes. This will allow you to see the code you wrote whenever you return to the branch. The following git code will add and save **all** your changes.
 
-```bash
-git add .
-git commit -m "Your commit message"
-```
 
-**Step 5: Compare with the solution**
+### LifecycleObserver
 
-Most exercises will have a list of steps for you to check off in the classroom. Once you've checked these off, you'll see a pop up window with a link to the solution code. Note the **Diff** link:
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)  
+	fun startTimer() {}
 
-![solutionwindow](https://d17h27t6h515a5.cloudfront.net/topher/2017/March/58bf00f9_solutionwindow/solutionwindow.png
-)
+## User-Interface
+![alt text](screenshots/screenshot01.png)
 
-The **Diff** link will take you to a Github diff as seen below:
-![diff](https://d17h27t6h515a5.cloudfront.net/topher/2017/March/58bf0108_diffsceenshot/diffsceenshot.png
-)
 
-All of the code that was added in the solution is in green, and the removed code (which will usually be the TODO comments) is in red. 
 
-You can also compare your code locally with the branch of the following step.
-
-## Report Issues
-Notice any issues with a repository? Please file a [github issue](https://github.com/udacity/andfun-kotlin-dessert-pusher/issues) in this repository.
