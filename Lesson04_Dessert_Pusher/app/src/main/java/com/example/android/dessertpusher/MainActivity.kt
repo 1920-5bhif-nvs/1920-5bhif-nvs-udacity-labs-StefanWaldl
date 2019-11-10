@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         Timber.i("onCreate called")
 
         //Create a DessertTimer
-        dessertTimer = DessertTimer()
+        dessertTimer = DessertTimer(this.lifecycle)
 
         // Use Data Binding to get reference to the views
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -162,7 +162,6 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         //Log.i("MainActivity","onStart called") //old way
         //with Timber:
         Timber.i("onStart called")
-        dessertTimer.startTimer()
     }
 
     override fun onResume() {
@@ -188,6 +187,5 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     override fun onStop() {
         super.onStop()
         Timber.i("onStop called")
-        dessertTimer.stopTimer()
     }
 }
