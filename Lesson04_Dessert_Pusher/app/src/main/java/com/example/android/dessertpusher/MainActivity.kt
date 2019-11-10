@@ -29,6 +29,10 @@ import androidx.lifecycle.LifecycleObserver
 import com.example.android.dessertpusher.databinding.ActivityMainBinding
 import timber.log.Timber
 
+const val KEY_REVENUE = "key_revenue"
+const val KEY_DESSERTSSOLD = "key_dessertssold"
+const val KEY_SECONDS = "key_secons"
+
 class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     private var revenue = 0
@@ -74,6 +78,12 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
         //Create a DessertTimer
         dessertTimer = DessertTimer(this.lifecycle)
+
+        if (savedInstanceState != null){
+            revenue = savedInstanceState.getInt(KEY_REVENUE)
+            dessertsSold = savedInstanceState.getInt(KEY_DESSERTSSOLD)
+            dessertTimer.secondsCount = savedInstanceState.getInt(KEY_SECONDS)
+        }
 
         // Use Data Binding to get reference to the views
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -187,5 +197,18 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     override fun onStop() {
         super.onStop()
         Timber.i("onStop called")
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        //always call it on super because a lot more is saved than expected
+        super.onSaveInstanceState(outState)
+        outState?.putInt(KEY_REVENUE,revenue) //keep it small!
+        outState?.putInt(KEY_DESSERTSSOLD,dessertsSold)
+        outState?.putInt(KEY_SECONDS,dessertTimer.secondsCount)
+        Timber.i("onSaveInstanceState called")
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
     }
 }
