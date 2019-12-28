@@ -16,3 +16,24 @@
  */
 
 package com.example.android.devbyteviewer.repository
+
+import com.example.android.devbyteviewer.database.VideosDatabase
+import com.example.android.devbyteviewer.network.Network
+import com.example.android.devbyteviewer.network.asDatabaseModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
+/*
+* Repository for fetching devbyte videos from the network and storing them on disk.
+* */
+class VideosRepository(private val database: VideosDatabase) {
+
+    //refresh offline cache
+    //suspend = function is coroutine friendly!
+    suspend fun refreshVideos() {
+        withContext(Dispatchers.IO){
+            val playlist = Network.devbytes.getPlaylist().await()
+            database.videoDao.insertAll(*playlist.asDatabaseModel())
+        }
+    }
+}
